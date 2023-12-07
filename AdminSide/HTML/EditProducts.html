@@ -4,10 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Editar productos</title>
-    <link rel="stylesheet" href="../CSS/Products.css">
-    <style>
-      
-    </style>
+    <link rel="stylesheet" href="../CSS/Products.css" />
+    <style></style>
   </head>
   <body>
     <header>
@@ -21,11 +19,41 @@
       <a href="./AddProducts.html">Añadir productos</a>
       <a href="./DeleteProducts.html">Eliminar productos</a>
     </nav>
+    <div class="container">
+      <table id="tableVista" class="editproduct">
+        <thead>
+          <tr>
+            <th>Producto ID</th>
+            <th>Nombre del Producto</th>
+            <th>Descripcion</th>
+            <th>Precio</th>
+            <th>Inventario</th>
+          </tr>
+        </thead>
+        <tbody id="data-output"></tbody>
+      </table>
+      <div>
+        <form>
+          <label for="productName">Nombre del Producto:</label>
+          <input type="text" id="productName" name="productName" /><br />
 
-    <main>
-      <!-- Your page content goes here -->
-      <h2>Welcome to Your Website!</h2>
-      <p>This is a blank template with a top navigation bar.</p>
-    </main>
+          <label for="productDescription">Descripcion:</label>
+          <input
+            type="text"
+            id="productDescription"
+            name="productDescription"
+          />
+          <br />
+
+          <label for="productPrice">Precio:</label>
+          <input type="text" id="productPrice" name="productPrice" />
+
+          <label for="productStock">Inventario:</label>
+          <input type="text" id="productStock" name="productStock" /><br />
+        </form>
+        <button type="button" id="btnUpdate">Editar</button>
+      </div>
+    </div>
+    <script src="../Javascript/EditProducts.js"></script>
   </body>
 </html>

@@ -16,11 +16,15 @@ loginbutton.addEventListener("click", async () => {
         body: JSON.stringify({
           parcel: { Usuario: username.value, Clave: password.value },
         }),
-      });
+      })
+        .then((response) => response.json())
+        .then(function (data) {
+          const accessToken = data.accessToken
+          document.cookie = `access_token=${accessToken}; path=/;`;
+          window.location.href = "ViewProducts.html";
+        });
 
-      if (res.ok) {
-        window.location.href = "ViewProducts.html";
-      }
+     
       if (res.status === 400) {
         alert("Usuario o contraseña incorrecta, pruebe de nuevo");
       }

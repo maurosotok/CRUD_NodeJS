@@ -13,11 +13,62 @@ export const testmethod = async (req, res) => {
     });
   res.json(rows);
 };
-let accessToken;
+//let accessToken;
 export const getT = async (req, res) => {
   res.json({ accessToken });
 };
 
+export const updateProducts = async (req, res) => {
+  const { parcel } = req.body;
+
+  await pool.query(
+    "Update productos set ProductName = ? where ProductoID = ?",
+    [parcel.Nombre, parcel.ID]
+  );
+  await pool.query(
+    "Update productos set Descripcion = ? where ProductoID = ?",
+    [parcel.Descripcion, parcel.ID]
+  );
+  await pool.query("Update productos set Price = ? where ProductoID = ?", [
+    parcel.Precio,
+    parcel.ID,
+  ]);
+  await pool.query("Update productos set Stock = ? where ProductoID = ?", [
+    parcel.Inventario,
+    parcel.ID,
+  ]);
+
+  const rows = await pool.query("select * from productos");
+
+  res.json(rows);
+};
+
+export const AddProductos = async (req, res) => {
+  const { parcel } = req.body;
+
+  let maxRowx = await pool.query(
+    "SELECT ProductoID FROM productos ORDER BY Productoid DESC LIMIT 1;"
+  );
+  const newID = maxRowx[0][0].ProductoID + 1;
+
+  await pool.query(`insert into productos values(?,?,?,?,?)`, [
+    newID,
+    parcel.Nombre,
+    parcel.Descripcion,
+    parcel.Precio,
+    parcel.Inventario,
+  ]);
+  const rows = await pool.query("select * from productos");
+  res.json(rows);
+};
+
+export const deleteProduct = async (req, res) => {
+  const { parcel } = req.body;
+
+  await pool.query("delete from productos where ProductoID = ?", parcel.ID);
+  const rows = await pool.query("select * from productos");
+  res.json(rows);
+};
 export const auth = async (req, res) => {
   try {
     const verifyPassword = async (password, hashedPassword) => {
@@ -47,12 +98,13 @@ export const auth = async (req, res) => {
       const user = { name: parcel.Usuario };
       //const accessToken = jwt.sign(user, "SECRET", { expiresIn: "1h" });
 
-      accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+      const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "9999s",
+      });
 
       // res.json({ accessToken: accessToken });
       console.log(accessToken);
-      const data = { message: "OK" };
-
+      const data = { message: "OK", accessToken };
       return res.status(200).send(data);
     } else {
       return res.status(400).send("Error");
@@ -71,7 +123,7 @@ export const getProductos = async (req, res) => {
   res.json(rows);
 };
 
-export const tempToken = accessToken;
+//export const tempToken = accessToken;
 
 export const testgetproducts = async (req, res) => {
   const [rows] = await pool.query("select * from usuarios");
