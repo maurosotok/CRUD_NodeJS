@@ -14,9 +14,9 @@ export const testmethod = async (req, res) => {
   res.json(rows);
 };
 let accessToken;
-export const getT = async(req, res) =>{
-    res.json({accessToken})
-}
+export const getT = async (req, res) => {
+  res.json({ accessToken });
+};
 
 export const auth = async (req, res) => {
   try {
@@ -60,6 +60,15 @@ export const auth = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const getProductos = async (req, res) => {
+  const [rows] = await pool.query("select * from productos");
+  if (rows.length <= 0)
+    return res.status(404).json({
+      message: "Usuario no encontrado",
+    });
+  res.json(rows);
 };
 
 export const tempToken = accessToken;

@@ -23,7 +23,26 @@ body {
     border-radius: 5px;
     background-color: #d9534f; /* Bootstrap's danger color */
 }
+table {
+  border-collapse: collapse;
+  width: 80%; /* Adjust the width as needed */
+  margin: auto; /* Center the table */
+  margin-top: 20px; /* Add some space at the top */
+}
 
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
 .logout-btn:hover {
     background-color: #c9302c; /* Darken the color on hover */
 }

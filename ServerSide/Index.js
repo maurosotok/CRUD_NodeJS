@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { testmethod, auth, getT, testgetproducts } from "./Routes/Routes.js";
+import { testmethod, auth, getT, testgetproducts,getProductos} from "./Routes/Routes.js";
 import jwt from "jsonwebtoken";
 const app = express();
 
@@ -26,5 +26,9 @@ function authenticateToken(req, res, next) {
 app.listen(3000);
 app.post("/auth", auth);
 app.get('/getT', getT)
+
+
 app.get("/testgetproducts", authenticateToken, testgetproducts);
+app.get("/getProductos", authenticateToken, getProductos)
+
 app.get("/testmethod", testmethod);
