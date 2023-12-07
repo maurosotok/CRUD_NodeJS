@@ -19,7 +19,7 @@ loginbutton.addEventListener("click", async () => {
       });
 
       if (res.ok) {
-        window.location.href = "Index.html";
+        window.location.href = "ViewProducts.html";
       }
       if (res.status === 400) {
         alert("Usuario o contraseña incorrecta, pruebe de nuevo");
