@@ -65,6 +65,10 @@ export const auth = async (req, res) => {
       "select * from usuarios where UserName = ?",
       parcel.Usuario
     );
+    if (rows.length <= 0)
+    return res.status(404).json({
+      message: "Usuario no encontrado",
+    });
     if (!parcel) {
       return res.status(400).send({ status: "failed" });
     }
@@ -86,6 +90,7 @@ export const auth = async (req, res) => {
     } else {
       return res.status(400).send("Error");
     }
+    
   } catch (error) {
     console.log(error);
   }

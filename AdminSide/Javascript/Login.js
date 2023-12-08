@@ -1,4 +1,3 @@
-
 const loginbutton = document.getElementById("LoginButton");
 const username = document.getElementById("username");
 const password = document.getElementById("password");
@@ -17,19 +16,21 @@ loginbutton.addEventListener("click", async () => {
           parcel: { Usuario: username.value, Clave: password.value },
         }),
       })
-        .then((response) => response.json())
-        .then(function (data) {
-          const accessToken = data.accessToken
-          document.cookie = `access_token=${accessToken}; path=/;`;
-          window.location.href = "ViewProducts.html";
-        });
-
-     
-      if (res.status === 400) {
+      if (res.ok) {
+        const data = await res.json();
+        const accessToken = data.accessToken;
+        document.cookie = `access_token=${accessToken}; path=/;`;
+        console.log(accessToken)
+        window.location.href = "ViewProducts.html";
+      } else {
+        // Handle other status codes (e.g., 400 for wrong credentials)
         alert("Usuario o contraseña incorrecta, pruebe de nuevo");
       }
     }
   } catch (error) {
     console.log(error);
+    if (res.status === 400) {
+      alert("Usuario o contraseña incorrecta, pruebe de nuevo");
+    }
   }
 });

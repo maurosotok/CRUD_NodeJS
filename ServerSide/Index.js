@@ -6,7 +6,7 @@ import {
   getProductos,
   updateProducts,
   deleteProduct,
-} from "./Routes/Routes.js";
+} from "./EndPoint/EndPoints.js";
 import jwt from "jsonwebtoken";
 const app = express();
 import dotenv from "dotenv";
@@ -22,7 +22,6 @@ function authenticateToken(req, res, next) {
   if (token == null) return res.sendStatus(401);
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-
     if (err) {
       console.error("JWT Verification Error:", err);
       return res.sendStatus(403);
