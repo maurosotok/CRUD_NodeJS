@@ -13,7 +13,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 app.use(express.json());
-
+app.use(cors());
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
@@ -32,7 +32,7 @@ function authenticateToken(req, res, next) {
   });
 }
 
-
+app.listen(3000);
 app.post("/auth", auth);
 app.get("/getProductos", authenticateToken, getProductos); // ver productos
 app.put("/updateProducts", authenticateToken, updateProducts); // actualizar productos
