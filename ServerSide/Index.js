@@ -1,14 +1,11 @@
 import express from "express";
 import cors from "cors";
 import {
-  testmethod,
   auth,
-  getT,
-  testgetproducts,
   AddProductos,
   getProductos,
   updateProducts,
-  deleteProduct
+  deleteProduct,
 } from "./Routes/Routes.js";
 import jwt from "jsonwebtoken";
 const app = express();
@@ -25,13 +22,12 @@ function authenticateToken(req, res, next) {
   if (token == null) return res.sendStatus(401);
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    //console.log(err, "checking");
 
     if (err) {
       console.error("JWT Verification Error:", err);
       return res.sendStatus(403);
+      87;
     }
-
     req.user = user;
     next();
   });
@@ -39,11 +35,7 @@ function authenticateToken(req, res, next) {
 
 app.listen(3000);
 app.post("/auth", auth);
-app.get("/getT", getT);
-
-app.get("/testgetproducts", authenticateToken, testgetproducts);
 app.get("/getProductos", authenticateToken, getProductos); // ver productos
-app.put("/updateProducts", authenticateToken, updateProducts) // actualizar productos
-app.post("/AddProductos", authenticateToken, AddProductos)
-app.delete("/deleteProduct",authenticateToken, deleteProduct)
-app.get("/testmethod", testmethod);
+app.put("/updateProducts", authenticateToken, updateProducts); // actualizar productos
+app.post("/AddProductos", authenticateToken, AddProductos); // agregar productos
+app.delete("/deleteProduct", authenticateToken, deleteProduct); // eliminar productos

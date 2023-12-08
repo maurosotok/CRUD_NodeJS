@@ -1,22 +1,28 @@
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif !important;
   }
 
   header {
-    background-color: #333;
-    padding: 15px;
-    text-align: center;
+    background-color: #333 !important;
+    padding: 15px !important;
+    text-align: center !important;
+    
+    
+  }
+  h1{
+    font-weight: bold !important;
+  color: black !important;    
   }
 form{
   margin-top: 20px;
   margin-right: 30px;
 }
   nav {
-    display: flex;
-    justify-content: space-around;
-    background-color: #444;
-    padding: 10px;
+    display: flex !important;
+    justify-content: space-around !important;
+    background-color: #444 !important;
+    padding: 10px !important;
   }
   .logout-btn {
     color: white;
@@ -46,6 +52,64 @@ th {
   background-color: #f2f2f2;
 }
 
+.editproduct tr:hover{
+    background-color: #7a7676;
+}
+.deleteProduct tr:hover{
+  background-color: #7a7676;
+}
+.clickedDeleteProduct tr:hover{
+  background-color: #333;
+}
+
+
+.formCentered{
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    ; /* Adjust as needed */
+}
+.EditForm{
+  font-size: 20px;
+  width: 120%;
+  flex: 1; /* This will make the form take up the remaining space */
+
+}
+.EditSection{
+  margin-left: 10px;
+  width: 35%;
+}
+.EditButton{
+  font-size: 25px;
+  padding: 10px;
+  border-radius: 10px;
+  display: block;
+  margin-left: 40%;
+  margin-right: 50%;
+  margin-top: 20px;
+  
+}
+.DeleteButton{
+  margin-top: 20px;
+  font-size: 25px;
+  display: block;
+  margin-left: 50%;
+  margin-right: 50%;
+  padding: 10px;
+  border-radius: 10px;
+
+
+}
+.AddForm{
+  display: inline-block;
+  font-size: 25px;
+}
+.btnAdd{
+  padding: 10px;
+  font-size: 25px;
+  border-radius: 10px;
+}
 tr:hover {
   background-color: #f5f5f5;
 }

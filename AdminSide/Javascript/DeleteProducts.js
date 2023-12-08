@@ -1,4 +1,3 @@
-
 const getProductsURL = "http://localhost:3000/getProductos";
 const deleteURL = "http://localhost:3000/deleteProduct";
 const tabla = document.getElementById("tableVista");
@@ -16,43 +15,56 @@ addEventListener("DOMContentLoaded", () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       showingDataOnTable(data);
-      process(retrievedToken);
+      process();
     })
     .catch((error) => {
       console.error("Error:", error);
     });
 });
 
-async function process(retrievedTokenPermite) {
+var selectedRowIndex = -1; // Initialize to an invalid index
+var selectedRow = -1;
+const clickedDeleteProduct = document.getElementById("tableVista");
+async function process() {
   for (let i = 0; i < rows.length; i++) {
     rows[i].addEventListener("click", async function () {
       const cells = this.getElementsByTagName("td");
-      selectedID = cells[0].innerHTML
-      btnDelete.addEventListener("click", async () => {
-        const res = await fetch(deleteURL, {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${retrievedTokenPermite}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            parcel: {
-              ID: cells[0].innerHTML,
-            },
-          }),
-        })
-          .then((response) => response.json())
-          .then(function (data) {
-            console.log(data, "sucess");
-            
-            showingDataOnTable(data[0]);
-          });
-      });
+      selectedRow = cells[0].innerHTML;
+      console.log(selectedRow);
+      if (selectedRowIndex !== -1) {
+        const prevCells = rows[selectedRowIndex].getElementsByTagName("td");
+        for (let j = 0; j < prevCells.length; j++) {
+          prevCells[j].classList.remove("list-group-item", "active");
+        }
+      }
+      selectedRowIndex = i;
+      cells[0].classList.add("list-group-item", "active");
     });
   }
 }
+
+btnDelete.addEventListener("click", async () => {
+  const retrievedToken = getAccessTokenFromCookie();
+  const res = await fetch(deleteURL, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${retrievedToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      parcel: {
+        ID: selectedRow,
+      },
+    }),
+  })
+    .then((response) => response.json())
+    .then(function (data) {
+      alert("Producto eliminado!");
+      location.reload();
+      //showingDataOnTable(data[0]);
+    });
+});
 
 const getAccessTokenFromCookie = () => {
   const cookies = document.cookie.split(";");

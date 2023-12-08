@@ -4,15 +4,6 @@ const getProductsURL = "http://localhost:3000/getProductos";
 addEventListener("DOMContentLoaded", () => {
   const retrievedToken = getAccessTokenFromCookie();
 
-  /*fetch(getUrl)
-    .then((response) => response.json())
-    .then((data) => {
-      const receivedVariable = data.accessToken;
-      console.log(receivedVariable);
-      
-    })
-    .catch((error) => console.error("Error:", error));
-*/
   const res = fetch(getProductsURL, {
     method: "GET",
     headers: {
@@ -22,7 +13,6 @@ addEventListener("DOMContentLoaded", () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       let placeholder = document.querySelector("#data-output");
       let out = "";
       for (let product of data) {

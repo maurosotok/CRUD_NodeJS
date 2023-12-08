@@ -8,29 +8,45 @@ const productStock = document.getElementById("productStock");
 
 addEventListener("DOMContentLoaded", async function () {});
 
-
 btnAdd.addEventListener("click", async function () {
-  const retrievedToken = getAccessTokenFromCookie();
 
-  const res = await fetch(addURL, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${retrievedToken}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      parcel: {
-        Nombre: productName.value.trim(),
-        Descripcion: productDescription.value.trim(),
-        Precio: productPrice.value.trim(),
-        Inventario: productStock.value.trim(),
-      },
-    }),
-  })
-    .then((res) => res.json())
-    .then(function (data) {
-      console.log(data);
-    });
+  try {
+    const retrievedToken = getAccessTokenFromCookie();
+    if (productName.value.trim() == "") {
+      alert("Ingrese un nombre de producto valido");
+    } else if (productDescription.value.trim() == "") {
+      alert("Ingrese una descripcion valida");
+    } else if (productPrice.value.trim() == "" || isNaN(productPrice.value)) {
+      alert("Ingrese un precio de producto valido");
+    } else if (productStock.value.trim() == "" || isNaN(productStock.value)) {
+      alert("Ingrese un inventario de producto valido");
+    } else {
+      const res = await fetch(addURL, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${retrievedToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          parcel: {
+            Nombre: productName.value.trim(),
+            Descripcion: productDescription.value.trim(),
+            Precio: productPrice.value.trim(),
+            Inventario: productStock.value.trim(),
+          },
+        }),
+        
+      });
+      alert("Producto agregado!")
+      productName.value = "";
+      productDescription.value = "";
+      productPrice.value = "";
+      productStock.value = "";
+    }
+  } catch (error) {
+    console.error(error)
+  }
+ 
 });
 
 const getAccessTokenFromCookie = () => {

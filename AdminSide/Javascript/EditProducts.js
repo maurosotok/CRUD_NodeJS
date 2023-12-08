@@ -20,7 +20,6 @@ addEventListener("DOMContentLoaded", () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       showingDataOnTable(data);
       process(retrievedToken);
     })
@@ -29,40 +28,66 @@ addEventListener("DOMContentLoaded", () => {
     });
 });
 async function process(retrievedTokenPermite) {
-  for (let i = 0; i < rows.length; i++) {
-    rows[i].addEventListener("click", async function () {
-      const cells = this.getElementsByTagName("td");
-      productName.value = cells[1].innerHTML;
-      productDescription.value = cells[2].innerHTML;
-      productPrice.value = cells[3].innerHTML;
-      productStock.value = cells[4].innerHTML;
+  try {
+    for (let i = 0; i < rows.length; i++) {
+      rows[i].addEventListener("click", async function () {
+        const cells = this.getElementsByTagName("td");
+        productName.value = cells[1].innerHTML;
+        productDescription.value = cells[2].innerHTML;
+        productPrice.value = cells[3].innerHTML;
+        productStock.value = cells[4].innerHTML;
 
-      btnUpdate.addEventListener("click", async () => {
-        const res = await fetch(updateURL, {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${retrievedTokenPermite}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            parcel: {
-              ID: cells[0].innerHTML,
-              Nombre: productName.value.trim(),
-              Descripcion: productDescription.value.trim(),
-              Precio: productPrice.value.trim(),
-              Inventario: productStock.value.trim(),
-            },
-          }),
-        })
-          .then((response) => response.json())
-          .then(function (data) {
-            console.log(data, "sucess");
-
-            showingDataOnTable(data[0]);
-          });
+        btnUpdate.addEventListener("click", async () => {
+          if (productName.value.trim() == "") {
+            alert("Ingrese un nombre de producto valido");
+            productName.value = cells[1].innerHTML;
+          } else if (productDescription.value.trim() == "") {
+            alert("Ingrese una descripcion valida");
+            productDescription.value = cells[2].innerHTML;
+          } else if (
+            productPrice.value.trim() == "" ||
+            isNaN(productPrice.value)
+          ) {
+            alert("Ingrese un precio de producto valido");
+            productPrice.value = cells[3].innerHTML;
+          } else if (
+            productStock.value.trim() == "" ||
+            isNaN(productStock.value)
+          ) {
+            alert("Ingrese un inventario de producto valido");
+            productStock.value = cells[4].innerHTML;
+          } else {
+            const res = await fetch(updateURL, {
+              method: "PUT",
+              headers: {
+                Authorization: `Bearer ${retrievedTokenPermite}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                parcel: {
+                  ID: cells[0].innerHTML,
+                  Nombre: productName.value.trim(),
+                  Descripcion: productDescription.value.trim(),
+                  Precio: productPrice.value.trim(),
+                  Inventario: productStock.value.trim(),
+                },
+              }),
+            })
+              .then((response) => response.json())
+              .then(function (data) {
+                productName.value = "";
+                productDescription.value = "";
+                productPrice.value = "";
+                productStock.value = "";
+                alert("Cambio realizado!");
+                //showingDataOnTable(data[0]);
+                location.reload();
+              });
+          }
+        });
       });
-    });
-  }
+    }
+  } catch (error) {}
 }
 
 const getAccessTokenFromCookie = () => {
